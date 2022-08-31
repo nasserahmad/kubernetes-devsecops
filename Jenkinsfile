@@ -9,10 +9,16 @@ pipeline {
             }
         } 
 
-      stage('Unit Tests') {
+      stage('Unit Tests - JUnit and Jacoco') {
             steps {
               sh "mvn test"
            }
-        }     
+           post{
+            always{
+              JUnit 'target/surfire-reports/*.xml'
+              jacoco execPattern: 'target/jacoco.exec'
+            }
+           }
+        }    
     }
 }
